@@ -1,0 +1,801 @@
+<!DOCTYPE html>
+<html lang="en" dir="rtl">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+<title>ناوەندی وەرگرتنی قوتابیان - زانکۆی سۆران - Soran University Panel System</title>
+<link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --primary-blue: #0066FF;
+    --primary-light: #3388FF;
+    --primary-dark: #0052CC;
+    --secondary: #64748B;
+    --accent: #06B6D4;
+    --success: #10B981;
+    --warning: #F59E0B;
+    --error: #EF4444;
+    
+    --bg-main: linear-gradient(135deg, #0F172A 0%, #1E293B 25%, #334155 50%, #475569 75%, #64748B 100%);
+    --bg-card: rgba(255, 255, 255, 0.95);
+    --bg-glass: rgba(255, 255, 255, 0.1);
+    
+    --text-primary: #0F172A;
+    --text-secondary: #475569;
+    --text-muted: #64748B;
+    --text-white: #FFFFFF;
+    
+    --border: rgba(255, 255, 255, 0.2);
+    --border-light: rgba(255, 255, 255, 0.1);
+    
+    --shadow: 0 1px 3px 0 rgb(0 0 0 / 0.1);
+    --shadow-md: 0 4px 6px -1px rgb(0 0 0 / 0.1);
+    --shadow-lg: 0 10px 15px -3px rgb(0 0 0 / 0.1);
+    --shadow-xl: 0 20px 25px -5px rgb(0 0 0 / 0.1);
+    --shadow-2xl: 0 25px 50px -12px rgb(0 0 0 / 0.25);
+    
+    --radius: 8px;
+    --radius-lg: 12px;
+    --radius-xl: 16px;
+  }
+  
+  * {
+    box-sizing: border-box;
+    margin: 0;
+    padding: 0;
+  }
+  
+  body {
+    font-family: 'Inter', 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    background: var(--bg-main);
+    color: var(--text-white);
+    direction: rtl;
+    line-height: 1.6;
+    min-height: 100vh;
+    padding: 20px;
+  }
+  
+  .bg-decoration {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    pointer-events: none;
+    z-index: 1;
+  }
+  
+  .floating-shape {
+    position: absolute;
+    background: var(--bg-glass);
+    border-radius: 50%;
+    animation: float 20s infinite linear;
+  }
+  
+  .floating-shape:nth-child(1) {
+    width: 300px;
+    height: 300px;
+    top: 10%;
+    right: 10%;
+    background: radial-gradient(circle, rgba(59, 130, 246, 0.1), transparent);
+  }
+  
+  .floating-shape:nth-child(2) {
+    width: 200px;
+    height: 200px;
+    top: 60%;
+    left: 15%;
+    animation-delay: -7s;
+    background: radial-gradient(circle, rgba(16, 185, 129, 0.1), transparent);
+  }
+  
+  .floating-shape:nth-child(3) {
+    width: 150px;
+    height: 150px;
+    top: 20%;
+    left: 30%;
+    animation-delay: -14s;
+    background: radial-gradient(circle, rgba(245, 158, 11, 0.1), transparent);
+  }
+  
+  @keyframes float {
+    0%, 100% { 
+      transform: translateY(0px) rotate(0deg); 
+      opacity: 0.3; 
+    }
+    50% { 
+      transform: translateY(-30px) rotate(180deg); 
+      opacity: 0.6; 
+    }
+  }
+  
+  .header {
+    position: relative;
+    z-index: 10;
+    background: var(--bg-card);
+    backdrop-filter: blur(20px);
+    border: 1px solid var(--border);
+    border-radius: var(--radius-xl);
+    padding: 20px 32px;
+    margin-bottom: 24px;
+    box-shadow: var(--shadow-lg);
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    color: var(--text-primary);
+  }
+  
+  .header-left {
+    display: flex;
+    align-items: center;
+    gap: 16px;
+  }
+  
+  .logo-small {
+    width: 50px;
+    height: 50px;
+    background: linear-gradient(135deg, var(--primary-blue), var(--primary-light));
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 24px;
+    color: white;
+    box-shadow: var(--shadow-md);
+  }
+  
+  .header-title h1 {
+    font-size: 24px;
+    font-weight: 700;
+    background: linear-gradient(135deg, var(--primary-blue), var(--accent));
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    background-clip: text;
+  }
+  
+  .header-title p {
+    font-size: 14px;
+    color: var(--text-muted);
+  }
+  
+  .header-right {
+    display: flex;
+    align-items: center;
+    gap: 16px;
+  }
+  
+  .user-info {
+    text-align: left;
+  }
+  
+  .user-name {
+    font-size: 16px;
+    font-weight: 600;
+    color: var(--text-primary);
+  }
+  
+  .user-role {
+    font-size: 13px;
+    color: var(--text-muted);
+  }
+  
+  .logout-btn {
+    background: linear-gradient(135deg, var(--error), #dc2626);
+    color: white;
+    border: none;
+    padding: 10px 20px;
+    border-radius: var(--radius);
+    cursor: pointer;
+    font-weight: 600;
+    transition: all 0.3s ease;
+    display: flex;
+    align-items: center;
+    gap: 8px;
+  }
+  
+  .logout-btn:hover {
+    transform: translateY(-2px);
+    box-shadow: var(--shadow-md);
+  }
+  
+  .container {
+    position: relative;
+    z-index: 10;
+    max-width: 1400px;
+    margin: 0 auto;
+  }
+  
+  .login-screen {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    min-height: calc(100vh - 40px);
+  }
+  
+  .login-card {
+    background: var(--bg-card);
+    backdrop-filter: blur(20px);
+    border: 1px solid var(--border);
+    border-radius: var(--radius-xl);
+    padding: 48px;
+    width: 100%;
+    max-width: 500px;
+    box-shadow: var(--shadow-2xl);
+    color: var(--text-primary);
+    text-align: center;
+  }
+  
+  .login-card h2 {
+    font-size: 28px;
+    font-weight: 700;
+    margin-bottom: 32px;
+    color: var(--text-primary);
+  }
+  
+  .login-btn {
+    background: linear-gradient(135deg, var(--primary-blue), var(--primary-light));
+    color: white;
+    border: none;
+    padding: 16px 32px;
+    border-radius: var(--radius-lg);
+    cursor: pointer;
+    font-weight: 700;
+    font-size: 16px;
+    width: 100%;
+    transition: all 0.3s ease;
+    box-shadow: var(--shadow-lg);
+  }
+  
+  .login-btn:hover {
+    transform: translateY(-2px);
+    box-shadow: var(--shadow-xl);
+  }
+  
+  .dashboard {
+    display: grid;
+    gap: 24px;
+  }
+  
+  .panels-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+    gap: 24px;
+  }
+  
+  .panel-card {
+    background: var(--bg-card);
+    backdrop-filter: blur(20px);
+    border: 1px solid var(--border);
+    border-radius: var(--radius-xl);
+    padding: 32px;
+    box-shadow: var(--shadow-lg);
+    color: var(--text-primary);
+    cursor: pointer;
+    transition: all 0.3s ease;
+    position: relative;
+    overflow: hidden;
+  }
+  
+  .panel-card::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    right: 0;
+    width: 100%;
+    height: 4px;
+    background: linear-gradient(90deg, var(--primary-blue), var(--primary-light));
+    transform: scaleX(0);
+    transform-origin: right;
+    transition: transform 0.3s ease;
+  }
+  
+  .panel-card:hover::before {
+    transform: scaleX(1);
+  }
+  
+  .panel-card:hover {
+    transform: translateY(-4px);
+    box-shadow: var(--shadow-xl);
+  }
+  
+  .panel-icon {
+    width: 60px;
+    height: 60px;
+    border-radius: var(--radius-lg);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 28px;
+    color: white;
+    margin-bottom: 16px;
+    background: linear-gradient(135deg, var(--primary-blue), var(--primary-light));
+  }
+  
+  .panel-title {
+    font-size: 20px;
+    font-weight: 700;
+    margin-bottom: 8px;
+    color: var(--text-primary);
+  }
+  
+  .panel-description {
+    font-size: 14px;
+    color: var(--text-muted);
+    line-height: 1.5;
+  }
+  
+  .stats-section {
+    background: var(--bg-card);
+    backdrop-filter: blur(20px);
+    border: 1px solid var(--border);
+    border-radius: var(--radius-xl);
+    padding: 24px;
+    box-shadow: var(--shadow-lg);
+    color: var(--text-primary);
+    margin-bottom: 24px;
+  }
+  
+  .stats-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+    gap: 16px;
+  }
+  
+  .stat-item {
+    background: linear-gradient(135deg, #f8fafc, #f1f5f9);
+    padding: 20px;
+    border-radius: var(--radius-lg);
+    text-align: center;
+  }
+  
+  .stat-value {
+    font-size: 32px;
+    font-weight: 700;
+    color: var(--primary-blue);
+    margin-bottom: 8px;
+  }
+  
+  .stat-label {
+    font-size: 14px;
+    color: var(--text-muted);
+  }
+  
+  .panel-content {
+    background: var(--bg-card);
+    backdrop-filter: blur(20px);
+    border: 1px solid var(--border);
+    border-radius: var(--radius-xl);
+    padding: 32px;
+    box-shadow: var(--shadow-lg);
+    color: var(--text-primary);
+  }
+  
+  .panel-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 24px;
+    padding-bottom: 16px;
+    border-bottom: 2px solid var(--border-light);
+  }
+  
+  .panel-header h2 {
+    font-size: 24px;
+    font-weight: 700;
+    color: var(--text-primary);
+  }
+  
+  .back-btn {
+    background: linear-gradient(135deg, var(--secondary), #475569);
+    color: white;
+    border: none;
+    padding: 10px 20px;
+    border-radius: var(--radius);
+    cursor: pointer;
+    font-weight: 600;
+    transition: all 0.3s ease;
+    display: flex;
+    align-items: center;
+    gap: 8px;
+  }
+  
+  .back-btn:hover {
+    transform: translateY(-2px);
+    box-shadow: var(--shadow-md);
+  }
+  
+  .fade-in {
+    animation: fadeIn 0.5s ease-out;
+  }
+  
+  @keyframes fadeIn {
+    from {
+      opacity: 0;
+      transform: translateY(20px);
+    }
+    to {
+      opacity: 1;
+      transform: translateY(0);
+    }
+  }
+  
+  @media (max-width: 768px) {
+    .header {
+      flex-direction: column;
+      gap: 16px;
+      text-align: center;
+    }
+    
+    .header-right {
+      flex-direction: column;
+    }
+    
+    .user-info {
+      text-align: center;
+    }
+    
+    .panels-grid {
+      grid-template-columns: 1fr;
+    }
+    
+    .login-card {
+      padding: 32px 24px;
+    }
+  }
+  
+  .hidden {
+    display: none;
+  }
+</style>
+</head>
+<body>
+  <div class="bg-decoration">
+    <div class="floating-shape"></div>
+    <div class="floating-shape"></div>
+    <div class="floating-shape"></div>
+  </div>
+
+  <div id="loginScreen" class="login-screen">
+    <div class="login-card fade-in">
+      <img src="https://i.imgur.com/qlBzfCs.png" alt="Soran University Logo" style="max-width: 140px; height: auto; margin: 0 auto 24px; display: block; filter: drop-shadow(0 4px 8px rgba(0,0,0,0.1));">
+      <h2 style="font-size: 32px; margin-bottom: 16px;">بەخێربێن بۆ زانکۆی سۆران</h2>
+      <p style="font-size: 18px; color: var(--text-secondary); margin-bottom: 32px; line-height: 1.8;">
+        سیستەمی ناوەندی وەرگرتنی قوتابیان لە زانکۆی سۆران<br>
+        ساڵی خویندنی 2025-2026
+      </p>
+      <button class="login-btn" id="loginBtn" onclick="login()">
+        <i class="fas fa-sign-in-alt"></i>
+        چوونە ژوورەوە
+      </button>
+      <p style="font-size: 14px; color: var(--text-muted); margin-top: 24px;">
+        تاقیکردنەوە: ?role=SYSTEM_ADMIN
+      </p>
+    </div>
+  </div>
+
+  <div id="mainApp" class="hidden">
+    <header class="header fade-in">
+      <div class="header-left">
+        <div class="logo-small">
+          <i class="fas fa-graduation-cap"></i>
+        </div>
+        <div class="header-title">
+          <h1>زانکۆی سۆران - Soran University</h1>
+          <p>سیستەمی بەڕێوەبردن - Management System</p>
+        </div>
+      </div>
+      <div class="header-right">
+        <div class="user-info">
+          <div class="user-name" id="userName"></div>
+          <div class="user-role" id="userRole"></div>
+        </div>
+        <button class="logout-btn" onclick="logout()">
+          <i class="fas fa-sign-out-alt"></i>
+          دەرچوون
+        </button>
+      </div>
+    </header>
+
+    <div class="container">
+      <div id="dashboardView" class="dashboard">
+        <div class="stats-section fade-in">
+          <h3 style="margin-bottom: 16px; font-size: 18px;">ئاماری گشتی - General Statistics</h3>
+          <div class="stats-grid">
+            <div class="stat-item">
+              <div class="stat-value">1,247</div>
+              <div class="stat-label">قوتابیانی نوێ</div>
+            </div>
+            <div class="stat-item">
+              <div class="stat-value">342</div>
+              <div class="stat-label">تۆمارکراوەکان</div>
+            </div>
+            <div class="stat-item">
+              <div class="stat-value">89</div>
+              <div class="stat-label">لە ڕیزدا</div>
+            </div>
+            <div class="stat-item">
+              <div class="stat-value">456</div>
+              <div class="stat-label">تەواوکراوەکان</div>
+            </div>
+          </div>
+        </div>
+
+        <div class="panels-grid" id="panelsGrid"></div>
+      </div>
+
+      <div id="panelView" class="hidden">
+        <div class="panel-content fade-in">
+          <div class="panel-header">
+            <h2 id="panelTitle"></h2>
+            <button class="back-btn" onclick="showDashboard()">
+              <i class="fas fa-arrow-right"></i>
+              گەڕانەوە
+            </button>
+          </div>
+          <div id="panelContentArea"></div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <script>
+    const USER_ROLES = {
+      'UNIQUE_OPERATOR': {  
+        name: 'ئۆپەرەیتەری ژمارەی تایبەت',
+        nameEn: 'Unique Number Operator',
+        defaultPanel: 'unique',
+        allowedPanels: ['unique'],
+        permissions: ['generate_unique', 'view_stats', 'print_unique'],
+        color: '#9b59b6',
+        icon: 'fa-hashtag'
+      },
+      'QUEUE_MANAGER': {
+        name: 'بەڕێوەبەری ڕیز',
+        nameEn: 'Queue Manager',
+        defaultPanel: 'queue',
+        allowedPanels: ['queue', 'queue_display'],
+        permissions: ['manage_queue', 'verify_students', 'view_queue_stats', 'view_queue_display'],
+        color: '#3498db',
+        icon: 'fa-users-line'
+      },
+      'REGISTRATION_OFFICER': {
+        name: 'بەکاربەری تۆمارکردن',
+        nameEn: 'Registration Officer',
+        defaultPanel: 'registration',
+        allowedPanels: ['registration'],
+        permissions: ['complete_registration', 'view_students', 'edit_student_info'],
+        color: '#27ae60',
+        icon: 'fa-user-plus'
+      },
+      'LEGAL_OFFICER': {
+        name: 'بەکاربەری یاسایی',
+        nameEn: 'Legal Officer',
+        defaultPanel: 'legal',
+        allowedPanels: ['legal'],
+        permissions: ['manage_legal_status', 'create_documents', 'update_legal_info'],
+        color: '#e74c3c',
+        icon: 'fa-gavel'
+      },
+      'FINANCE_OFFICER': {
+        name: 'بەکاربەری دارایی',
+        nameEn: 'Finance Officer',
+        defaultPanel: 'finance',
+        allowedPanels: ['finance'],
+        permissions: ['manage_payments', 'view_finance_records', 'generate_receipts'],
+        color: '#f39c12',
+        icon: 'fa-money-bill-wave'
+      },
+      'ACCOMMODATION_OFFICER': {
+        name: 'بەکاربەری نیشتەجێبوون',
+        nameEn: 'Accommodation Officer',
+        defaultPanel: 'accommodation',
+        allowedPanels: ['accommodation'],
+        permissions: ['assign_rooms', 'manage_housing', 'view_accommodation_stats'],
+        color: '#16a085',
+        icon: 'fa-building'
+      },
+      'PREACCEPTED_OFFICER': {
+        name: 'ئەفسەری پێش-پەسەندکردن',
+        nameEn: 'Pre-Acceptance Officer',
+        defaultPanel: 'preaccepted',
+        allowedPanels: ['preaccepted'],
+        permissions: ['pre_view', 'pre_edit', 'pre_stats'],
+        color: '#8e44ad',
+        icon: 'fa-user-check'
+      },
+      'STUDENT': {
+        name: 'قوتابی',
+        nameEn: 'Student',
+        defaultPanel: 'student_submit',
+        allowedPanels: ['student_submit', 'student_status'],
+        permissions: ['student_view', 'student_edit_own'],
+        color: '#1f9d55',
+        icon: 'fa-user-graduate'
+      },
+      'SYSTEM_ADMIN': {
+        name: 'بەڕێوەبەری سیستەم',
+        nameEn: 'System Administrator',
+        defaultPanel: 'dashboard',
+        allowedPanels: ['dashboard', 'unique', 'queue', 'registration', 'legal', 'finance', 'accommodation', 'preaccepted', 'admin'],
+        permissions: ['full_access', 'manage_users', 'view_all_data', 'export_data'],
+        color: '#2c3e50',
+        icon: 'fa-user-shield'
+      }
+    };
+
+    const PANELS = {
+      'unique': {
+        name: 'ژمارەی تایبەت',
+        nameEn: 'Unique Number',
+        icon: 'fa-hashtag',
+        description: 'دروستکردن و چاپکردنی ژمارەی تایبەت بۆ قوتابیان'
+      },
+      'queue': {
+        name: 'بەڕێوەبردنی ڕیز',
+        nameEn: 'Queue Management',
+        icon: 'fa-users-line',
+        description: 'بەڕێوەبردنی ڕیزی چاوەڕوانی و پشکنینی قوتابیان'
+      },
+      'queue_display': {
+        name: 'پیشاندانی ڕیز',
+        nameEn: 'Queue Display',
+        icon: 'fa-tv',
+        description: 'پیشاندانی ڕاستەوخۆی ژمارەکانی ڕیز'
+      },
+      'registration': {
+        name: 'تۆمارکردن',
+        nameEn: 'Registration',
+        icon: 'fa-user-plus',
+        description: 'تەواوکردنی پرۆسەی تۆمارکردنی قوتابیان'
+      },
+      'legal': {
+        name: 'بەشی یاسایی',
+        nameEn: 'Legal Department',
+        icon: 'fa-gavel',
+        description: 'بەڕێوەبردنی بەڵگەنامە یاسایییەکان'
+      },
+      'finance': {
+        name: 'بەشی دارایی',
+        nameEn: 'Finance Department',
+        icon: 'fa-money-bill-wave',
+        description: 'بەڕێوەبردنی پارەدان و وەسڵەکان'
+      },
+      'accommodation': {
+        name: 'نیشتەجێبوون',
+        nameEn: 'Accommodation',
+        icon: 'fa-building',
+        description: 'دیاریکردنی ژووری نیشتەجێبوون'
+      },
+      'preaccepted': {
+        name: 'پێش-پەسەندکراوان',
+        nameEn: 'Pre-Accepted',
+        icon: 'fa-user-check',
+        description: 'بەڕێوەبردنی قوتابیانی پێش-پەسەندکراو'
+      },
+      'student_submit': {
+        name: 'ناردنی داواکاری',
+        nameEn: 'Submit Application',
+        icon: 'fa-file-arrow-up',
+        description: 'ناردنی داواکاری تۆمارکردن'
+      },
+      'student_status': {
+        name: 'بینینی بارودۆخ',
+        nameEn: 'View Status',
+        icon: 'fa-chart-line',
+        description: 'بینینی بارودۆخی تۆمارکردن'
+      },
+      'dashboard': {
+        name: 'داشبۆرد',
+        nameEn: 'Dashboard',
+        icon: 'fa-chart-pie',
+        description: 'تێڕوانینی گشتی بۆ سیستەم'
+      },
+      'admin': {
+        name: 'بەڕێوەبردنی سیستەم',
+        nameEn: 'System Administration',
+        icon: 'fa-cogs',
+        description: 'ڕێکخستنی سیستەم و بەکارهێنەران'
+      }
+    };
+
+    let currentUser = null;
+
+    function init() {
+      const urlParams = new URLSearchParams(window.location.search);
+      const role = urlParams.get('role');
+      const userName = urlParams.get('name');
+      const userEmail = urlParams.get('email');
+      
+      if (role && USER_ROLES[role]) {
+        currentUser = {
+          name: userName || 'بەکارهێنەر',
+          email: userEmail || '',
+          role: role,
+          ...USER_ROLES[role]
+        };
+        
+        document.getElementById('loginScreen').classList.add('hidden');
+        document.getElementById('mainApp').classList.remove('hidden');
+        
+        document.getElementById('userName').textContent = currentUser.name;
+        document.getElementById('userRole').textContent = currentUser.name;
+        
+        renderDashboard();
+        
+        window.history.replaceState({}, document.title, window.location.pathname);
+      }
+    }
+
+    function login() {
+      const returnUrl = encodeURIComponent(window.location.href);
+      window.location.href = `https://script.google.com/macros/s/AKfycbzDUb_3W9y8Tyb4Gt6vmgSkDF1I3xIXVqkxND1oilaVjM-UcOMkQ-bvJo9ZauU8vCuc/exec`;
+    }
+
+    function logout() {
+      currentUser = null;
+      document.getElementById('mainApp').classList.add('hidden');
+      document.getElementById('loginScreen').classList.remove('hidden');
+    }
+
+    function renderDashboard() {
+      if (!currentUser) {
+        console.error('No user logged in');
+        return;
+      }
+      
+      const container = document.getElementById('panelsGrid');
+      container.innerHTML = '';
+      
+      currentUser.allowedPanels.forEach(panelKey => {
+        const panel = PANELS[panelKey];
+        if (!panel) return;
+        
+        const div = document.createElement('div');
+        div.className = 'panel-card';
+        div.innerHTML = `
+          <div class="panel-icon" style="background: linear-gradient(135deg, ${currentUser.color}, ${currentUser.color}dd);">
+            <i class="fas ${panel.icon}"></i>
+          </div>
+          <div class="panel-title">${panel.name}</div>
+          <div class="panel-description">${panel.description}</div>
+        `;
+        div.onclick = () => openPanel(panelKey);
+        container.appendChild(div);
+      });
+    }
+
+    function openPanel(panelKey) {
+      const panel = PANELS[panelKey];
+      if (!panel) return;
+      
+      document.getElementById('dashboardView').classList.add('hidden');
+      document.getElementById('panelView').classList.remove('hidden');
+      
+      document.getElementById('panelTitle').textContent = `${panel.name} - ${panel.nameEn}`;
+      
+      const contentArea = document.getElementById('panelContentArea');
+      contentArea.innerHTML = `
+        <div style="text-align: center; padding: 40px;">
+          <i class="fas ${panel.icon}" style="font-size: 64px; color: ${currentUser.color}; margin-bottom: 20px;"></i>
+          <h3 style="font-size: 24px; margin-bottom: 16px;">${panel.name}</h3>
+          <p style="color: var(--text-muted); font-size: 16px; margin-bottom: 24px;">${panel.description}</p>
+          <a href="https://script.google.com/macros/s/AKfycbz_jGvjaC5qrP2ztqKiZ8P2S5UGM0nUmvlFRtC3n-hq_8vrxam7GQZ9yZflg7JBTzig/exec" 
+             target="_blank" 
+             style="display: inline-flex; align-items: center; gap: 10px; background: linear-gradient(135deg, ${currentUser.color}, ${currentUser.color}dd); color: white; padding: 14px 28px; border-radius: 12px; text-decoration: none; font-weight: 600; transition: all 0.3s ease;">
+            <i class="fas fa-external-link-alt"></i>
+            کردنەوەی پانێڵ - Open Panel
+          </a>
+        </div>
+      `;
+    }
+
+    function showDashboard() {
+      document.getElementById('panelView').classList.add('hidden');
+      document.getElementById('dashboardView').classList.remove('hidden');
+    }
+
+    init();
+  </script>
+</body>
+</html>
